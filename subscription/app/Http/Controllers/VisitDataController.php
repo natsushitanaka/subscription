@@ -13,20 +13,15 @@ class VisitDataController extends Controller
         $this->middleware('auth');
     }
 
-    public function add(VisitData $visitData, AddVisitData $request)
+    public function add($id, AddVisitData $request)
     {
         $data = new VisitData();
-
-        $data->customer_id = $visitData->customer_id;
-        $data->date = $request->date;
-        $data->pay = $request->pay;
-        $data->person = $request->person;
-        $data->comment = $request->comment;
-
+        $data->fill($request->all());
+        $data->customer_id = $id;
         $data->save();
 
         return redirect()->route('detail', [
-            'id' => $visitData->customer_id,
+            'customer' => $id,
         ]);
     }
 
@@ -35,7 +30,7 @@ class VisitDataController extends Controller
         VisitData::destroy($visitData->id);
 
         return redirect()->route('detail', [
-            'id' => $visitData->customer_id,
+            'customer' => $visitData->customer_id,
         ]);
     }
 }

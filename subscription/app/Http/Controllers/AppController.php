@@ -123,12 +123,21 @@ class AppController extends Controller
         ]);
     }
 
-    // Customer詳細
-    public function detail(Customer $customer)
+    public function data(Customer $customer)
     {
         // VisitDataを日付降順で取得
         $visit_datas = VisitData::where('customer_id', $customer->id)->orderByRaw('date desc')->get();
-        
+
+        return view('customer.data', [
+            'customer' => $customer,
+            'visit_datas' => $visit_datas,
+        ]);
+
+    }
+    
+    // Customer詳細
+    public function detail(Customer $customer)
+    {        
         // VisitData、Planから金額、人数、来店回数の合計を取得
         $total_payment = VisitData::where('customer_id', $customer->id)->sum('pay');
         $total_people = VisitData::where('customer_id', $customer->id)->sum('person');
@@ -217,9 +226,7 @@ class AppController extends Controller
         return view('customer.detail', [
             'customer' => $customer,
             'formatted' => $formatted,
-            'visit_datas' => $visit_datas,
             'total_data' => $total_data,
         ]);
-
     }
 }

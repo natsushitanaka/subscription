@@ -1,39 +1,13 @@
 @extends('layouts.app')
 
-@section('error')
-    @include('share.showError')
-@endsection
-
 @section('content')
-
-<h3>Add Visit Data</h3>
-
-<form action="/visitdata/{{$customer->id}}/add" method="post">
-
-    @csrf
-
-    <label for="date">Visit Date:</label>
-    <input type="date" name="date" id="date" value="{{ old('date') }}"><br>
-
-    <label for="pay">Payment:</label>
-    <input type="number" name="pay" id="pay" value="{{ old('pay') }}"><br>
-
-    <label for="person">Num of people:</label>
-    <input type="number" name="person" id="person" value="{{ old('person') }}"><br>
-
-    <label for="comment">Comment:</label>
-    <input type="text" name="comment" id="comment" value="{{ old('comment') }}"><br>
-
-    <input type="submit" value="Add">
-
-</form>
 
 <h3>
     {{ $customer->name }}'s Data
     <a href="/customer/{{$customer->id}}/edit">[Edit]</a>
 </h3>
 
-<table>
+<table class="table">
 
     <tr>
         <th>Age</th>
@@ -66,17 +40,17 @@
     </tr>
 
     <tr>
-        <th>start at</th>
+        <th>start at (Plan)</th>
         <td>{{ $customer->plan_started_at }}</td>
     </tr>
 
     <tr>
-        <th>due date</th>
+        <th>due date (Plan)</th>
         <td>{{ $formatted['due_date'] }}</td>
     </tr>
 
     <tr>
-        <th>days left</th>
+        <th>days left (Plan)</th>
         <td>{{ $formatted['left'] }}</td>
     </tr>
 
@@ -86,39 +60,5 @@
     </tr>
 
 </table>
-
-@if(!is_null($visit_datas))
-
-<h3>Visit Datas</h3>
-
-<table>
-
-    <tr>
-        <th>Date</th>
-        <th>Payment</th>
-        <th>Num of people</th>
-        <th>Comment</th>
-        <th></th>
-    </tr>
-
-    @foreach($visit_datas as $visit_data)
-
-    <tr>
-        <td>{{ $visit_data->date }}</td>
-        <td>{{ $visit_data->pay }}</td>
-        <td>{{ $visit_data->person }}</td>
-        <td>{{ $visit_data->commnet ?: '-' }}</td>
-        <form action="{{ route('visitdata.delete', ['id' => $visit_data->id]) }}" method="post">
-        @csrf
-        <td>
-            <input type="submit" value="×">
-        </td>
-        </form>
-    </tr>
-
-    @endforeach
-</table>
-
-@endif
 
 @endsection

@@ -6,7 +6,7 @@
 
     <h3>Registration information</h3>
 
-<table>
+<table class="table">
 
     <tr>
         <th>Name</th>

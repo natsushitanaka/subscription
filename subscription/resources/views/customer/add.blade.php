@@ -6,37 +6,60 @@
 
 @section('content')
 
-<h3>Register Customer</h3>
+<form action="{{ route('customer.add') }}" class="form-fluid" method="post">
+@csrf
+  <fieldset>
+    <legend>Add Customer</legend>
 
-<div class="form">
+    <div class="form-group">
+      <label for="name" class="col-lg-2 control-label">Name</label>
+      <div class="col-lg-4">
+        <input name="name" type="text" class="form-control" id="name" placeholder="Name" value="{{ old('name',) }}" required>
+      </div>
+    </div>
 
-  <form action="{{ route('customer.add') }}" method="post">
+    <div class="form-group">
+      <label for="email" class="col-lg-2 control-label">Email</label>
+      <div class="col-lg-4">
+        <input name="email" type="email" class="form-control" id="email" placeholder="Email" value="{{ old('email',) }}" required>
+      </div>
+    </div>
 
-  @csrf
+    <div class="form-group">
+      <label for="tel" class="col-lg-2 control-label">Tel</label>
+      <div class="col-lg-4">
+        <input name="tel" type="tel" class="form-control" id="tel" placeholder="Tel" value="{{ old('tel',) }}">
+      </div>
+    </div>
 
-  <label for="name">*Name:</label>
-  <input type="text" id="name" name="name" value="{{ old('name',) }}" required><br>
+    <div class="form-group">
+      <label for="birth" class="col-lg-2 control-label">Birth</label>
+      <div class="col-lg-4">
+        <input name="birth" type="date" class="form-control" id="birth" placeholder="Birthday" value="{{ old('birth',) }}">
+      </div>
+    </div>
 
-  <label for="email">*E-mail:</label>
-  <input type="email" id="email" name="email" value="{{ old('email') }}" required><br>
+    <div class="form-group">
+      <label for="plan" class="col-lg-2 control-label">Plan</label>
+      <div class="col-lg-4">
+        <input name="plan" type="checkbox" id="plan" value="1">
+      </div>
+    </div>
 
-  <label for="tel">Tel:</label>
-  <input type="tel" id="tel" name="tel" value="{{ old('tel') }}"><br>
+    <div class="form-group">
+      <label for="comment" class="col-lg-2 control-label">Comment</label>
+      <div class="col-lg-4">
+        <input name="comment" type="text" class="form-control" id="comment" placeholder="Comment" value="{{ old('comment',) }}">
+      </div>
+    </div>
 
-  <label for="birth">Birth:</label>
-  <input type="date" id="birth" name="birth" value="{{ old('birth') }}"><br>
+    <div class="form-group">
+      <div class="col-lg-4 col-lg-offset-2">
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </div>
+    </div>
 
-  <label for="plan">Plan:</label>
-  <input type="checkbox" id="plan" name="plan" value="1"><br>
+  </fieldset>
+</form>
 
-  <label for="comment">Comment:</label>
-  <input type="text" id="comment" name="comment" value="{{ old('comment') }}"><br>
-
-  <p>* are required</p>
-
-  <input class="submit" type="submit" value="Add">
-
-  </form>
-
-</div>
-@endsection
+  @endsection

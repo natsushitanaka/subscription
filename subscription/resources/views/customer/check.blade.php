@@ -1,6 +1,6 @@
 <h3>Customer Datas</h3>
 
-<table>
+<table class="table">
 
     <tr>
         <th>Name</th>

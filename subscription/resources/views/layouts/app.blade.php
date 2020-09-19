@@ -17,7 +17,9 @@
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
 
     <!-- Styles -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link href="{{ asset('css/styles.css') }}" rel="stylesheet">
+
 </head>
     <body>
         <ul class="navbar-nav ml-auto">
@@ -43,11 +45,6 @@
                 @csrf
             </form>
 
-            <a href="{{ route('home') }}">Home</a>
-            <a href="{{ route('customer.add') }}">Register Customer</a>
-            <a href="{{ route('customer.list') }}">Customer List</a>
-            <a href="{{ route('customer.list.deleted') }}">Customer List Deleted</a>
-
                 <!-- <li class="nav-item dropdown">
                     <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                         {{ Auth::user()->name }} <span class="caret"></span>
@@ -67,6 +64,12 @@
                 </li> -->
             @endguest
         </ul>
+
+        <a href="{{ route('home') }}" class="btn btn-info">Home</a>
+        <a href="{{ route('customer.add') }}" class="btn btn-info">Register Customer</a>
+        <a href="{{ route('customer.list') }}" class="btn btn-info">Customer List</a>
+        <a href="{{ route('customer.list.deleted') }}" class="btn btn-info">Customer List Deleted</a>
+
 
         <main class="py-4">
             @yield('content')

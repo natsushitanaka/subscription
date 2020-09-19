@@ -2,14 +2,14 @@
 
 @section('content')
 
-<table>
+<table class="table">
 
     <tr>
         <th>Name</th>
         <th>Created at</th>
         <th>Plan</th>
-        <th></th>
-        <th></th>
+        <th>Data</th>
+        <th>Delete</th>
     </tr>
 
     @foreach($customers as $customer)
@@ -25,14 +25,14 @@
         <td>◯</td>
         @endif
 
+        <td><a href="/customer/{{$customer->id}}/data">=></a></td>
+
         <form action="/customer/{{$customer->id}}/delete" method="post">
         @csrf
         <td>
-            <input type="submit" value="Delete">
+            <button type="submit" class="btn btn-primary btn-sm">×</button>
         </td>
         </form>
-
-        <td><a href="/announce/{{$customer->id}}">Announce</a></td>
 
     </tr>
     

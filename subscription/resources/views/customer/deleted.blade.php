@@ -2,7 +2,7 @@
 
 @section('content')
 
-<table>
+<table class="table">
 
     <tr>
         <th>Name</th>
@@ -28,14 +28,14 @@
         <form action="/customer/{{$customer->id}}/restore" method="post">
         @csrf
         <td>
-            <input type="submit" value="Restore">
+            <button type="submit" class="btn btn-primary btn-sm">Resote</button>
         </td>
         </form>
 
         <form action="/customer/{{$customer->id}}/forceDelete" method="post">
         @csrf
         <td>
-            <input type="submit" value="ForceDelete">
+            <button type="submit" class="btn btn-primary btn-sm">Destroy</button>
         </td>
         </form>
 
