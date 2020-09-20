@@ -40,7 +40,7 @@
     </tr>
 
     <tr>
-        <th>start at (Plan)</th>
+        <th>started at (Plan)</th>
         <td>{{ $customer->plan_started_at }}</td>
     </tr>
 

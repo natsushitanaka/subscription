@@ -24,9 +24,9 @@ class AddVisitData extends FormRequest
     public function rules()
     {
         return [
-            'date' => 'required|date',
-            'pay' => 'required|numeric',
-            'person' => 'required|numeric',
+            'date' => 'date',
+            'pay' => 'numeric',
+            'person' => 'numeric',
             'comment' => 'max:100',
         ];
     }

@@ -6,7 +6,7 @@
 
 @section('content')
 
-<form action="{{ route('customer.add') }}" class="form-fluid" method="post">
+<form action="/customer/{{$customer->id}}/edit" class="form-fluid" method="post">
 @csrf
   <fieldset>
     <legend>Edit Customer</legend>

@@ -4,7 +4,7 @@
 
 <h2>Welcome to GAO</h2>
 
-<!-- {!! QrCode::size(100)->generate('https://kakurebakitchengao.business.site/') !!} -->
+<!-- {!! QrCode::format('png')->size(100)->generate('https://kakurebakitchengao.business.site/') !!} -->
 
 <!-- <div class="container">
     <div class="row justify-content-center">

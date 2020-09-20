@@ -6,7 +6,11 @@
 
 @section('content')
 
-<form action="/visitdata/{{$customer->id}}/add" class="form-fluid" method="post">
+<h2><a href="/customer/{{$customer->id}}">{{ $customer->name }}</a>'s Data</h2>
+
+<a href="/check/{{$customer->id}}">To Check page</a>
+
+  <form action="/visitdata/{{$customer->id}}/add" class="form-fluid" method="post">
 @csrf
   <fieldset>
     <legend>Add Visit Data</legend>
@@ -14,7 +18,7 @@
     <div class="form-group">
       <label for="date" class="col-lg-2 control-label">Visit Date</label>
       <div class="col-lg-4">
-        <input name="date" type="date" class="form-control" id="date" placeholder="date" value="{{ old('date') }}">
+        <input name="date" type="date" class="form-control" id="date" placeholder="date" value="{{ old('date') }}" required>
       </div>
     </div>
 
@@ -49,7 +53,7 @@
   </fieldset>
 </form>
 
-@if(!is_null($visit_datas))
+@if(!is_null($visit_datas->first()))
 
 <h3>Visit Datas</h3>
 
@@ -60,16 +64,18 @@
         <th>Payment</th>
         <th>Num of people</th>
         <th>Comment</th>
-        <th></th>
+        <th>-</th>
+        <th>-</th>
     </tr>
 
     @foreach($visit_datas as $visit_data)
 
     <tr>
-        <td>{{ $visit_data->date }}</td>
-        <td>{{ $visit_data->pay }}</td>
-        <td>{{ $visit_data->person }}</td>
+        <td>{{ $visit_data->date ?: '-' }}</td>
+        <td>{{ $visit_data->pay ?: '-' }}</td>
+        <td>{{ $visit_data->person ?: '-' }}</td>
         <td>{{ $visit_data->commnet ?: '-' }}</td>
+        <td><a href="/visitdata/{{$visit_data->id}}/edit">edit</a></td>
         <form action="/visitdata/{{$visit_data->id}}/delete" method="post">
         @csrf
         <td>
@@ -81,6 +87,8 @@
     @endforeach
 </table>
 
+@else
+<h3>No Visit Data</h3>
 @endif
 
 @endsection

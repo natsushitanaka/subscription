@@ -2,3 +2,9 @@
 .table{
     width: auto;
 }
+
+.err{
+    color: floralwhite;
+    background-color: red;
+    padding: 5px;
+}

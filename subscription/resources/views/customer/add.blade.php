@@ -6,6 +6,10 @@
 
 @section('content')
 
+@if(isset($msg))
+<span class="err">{{ $msg }}</span>
+@endif
+
 <form action="{{ route('customer.add') }}" class="form-fluid" method="post">
 @csrf
   <fieldset>

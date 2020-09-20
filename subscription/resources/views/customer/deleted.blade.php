@@ -2,6 +2,12 @@
 
 @section('content')
 
+@if(isset($msg))
+<span class="err">{{ $msg }}</span>
+@endif
+
+<h2>Deleted Customer List</h2>
+
 <table class="table">
 
     <tr>

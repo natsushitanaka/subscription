@@ -6,6 +6,8 @@
 
     <h3>Registration information</h3>
 
+<img src="{{ $message->embed('qrcode/'.$data->id.'.png') }}" alt="">
+
 <table class="table">
 
     <tr>

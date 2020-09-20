@@ -11,7 +11,7 @@ use App\Http\Requests\AddCustomer;
 use Carbon\Carbon;
 use App\Mail\HelloEmail;
 use Mail;
-
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class AppController extends Controller
 {
@@ -25,6 +25,12 @@ class AppController extends Controller
     public function list()
     {
         $customers = Customer::all();
+        
+        if(is_null($customers->first())){
+            return view('customer.add', [
+                'msg' => 'Please add customer as no data yet.',
+            ]);    
+        }
 
         return view('customer.list', [
             'customers' => $customers,
@@ -95,6 +101,8 @@ class AppController extends Controller
             // Planテーブルに追加、customer_idと紐付ける
             Plan::create(['customer_id' => $customer->id]);
         }
+
+        \QrCode::format('png')->size(150)->generate('https://qiita.com', public_path('/qrcode/'. $customer->id . '.png'));
 
         return redirect()->route('customer.add');
     }
@@ -168,23 +176,23 @@ class AppController extends Controller
             // $leftでメールのviewを指定
             switch($left){
                 case 30:
-                    Mail::to('owazo443@gmail.com')->send(new HelloEmail($customer, $left));
+                    // Mail::to('owazo443@gmail.com')->send(new HelloEmail($customer, $left));
                 break;
 
                 case 7:
-                    Mail::to('owazo443@gmail.com')->send(new HelloEmail($customer, $left));
+                    // Mail::to('owazo443@gmail.com')->send(new HelloEmail($customer, $left));
                 break;
 
                 case 0:
-                        Mail::to('owazo443@gmail.com')->send(new HelloEmail($customer, $left));
-                        
-                        // Plan、plan_started_atカラムを初期化
-                        $customer->plan = 0;
-                        $customer->plan_started_at = null;
-                        $customer->save();
+                    // Mail::to('owazo443@gmail.com')->send(new HelloEmail($customer, $left));
+                    
+                    // Plan、plan_started_atカラムを初期化
+                    $customer->plan = 0;
+                    $customer->plan_started_at = null;
+                    $customer->save();
 
-                        // Planテーブルのレコードを論理削除
-                        Plan::find($customer->id)->delete();
+                    // Planテーブルのレコードを論理削除
+                    Plan::find($customer->id)->delete();
                 break;
             }
         // Plan購入者でない場合

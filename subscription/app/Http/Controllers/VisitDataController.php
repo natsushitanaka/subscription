@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\VisitData;
+use App\Customer;
 use App\Http\Requests\AddVisitData;
+use Carbon\Carbon;
 
 class VisitDataController extends Controller
 {
@@ -20,7 +22,7 @@ class VisitDataController extends Controller
         $data->customer_id = $id;
         $data->save();
 
-        return redirect()->route('detail', [
+        return redirect()->route('data', [
             'customer' => $id,
         ]);
     }
@@ -29,8 +31,38 @@ class VisitDataController extends Controller
     {
         VisitData::destroy($visitData->id);
 
-        return redirect()->route('detail', [
+        return redirect()->route('data', [
             'customer' => $visitData->customer_id,
         ]);
     }
+
+    public function showEdit(VisitData $visitData)
+    {
+        return view('visitData.edit', [
+            'visitData' => $visitData,
+        ]);
+    }
+
+    public function edit(VisitData $visitData, AddVisitData $request)
+    {
+        $visitData = visitData::find($visitData->id);
+        $visitData->update($request->all());
+
+        return redirect()->route('data', [
+            'customer' => $visitData->customer_id,
+        ]);
+    }
+
+    public function check(Customer $customer)
+    {
+        $visit_data = new VisitData();
+        $visit_data->customer_id = $customer->id;
+        $visit_data->date = date("Y-m-d", strtotime(Carbon::now()));
+        $visit_data->save();
+
+        return redirect()->route('data', [
+            'customer' => $customer->id,
+        ]);
+    }
+
 }

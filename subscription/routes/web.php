@@ -18,7 +18,7 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
-Route::get('/announce/{customer}', 'AnnounceController@index')->name('announce');
+Route::get('/check/{customer}', 'VisitDataController@check')->name('check');
 Route::get('/customer/{customer}/data', 'AppController@data')->name('data');
 Route::get('/customer/list', 'AppController@list')->name('customer.list');
 Route::get('/customer/list/deleted', 'AppController@deleted')->name('customer.list.deleted');
@@ -31,5 +31,7 @@ Route::get('/customer/{customer}/edit', 'AppController@showEdit')->name('custome
 Route::post('/customer/{customer}/edit', 'AppController@edit');
 Route::get('/customer/{customer}', 'AppController@detail')->name('detail');
 Route::post('/visitdata/{id}/add', 'VisitDataController@add')->name('visitdata.add');
+Route::get('/visitdata/{visitData}/edit', 'VisitDataController@showEdit')->name('visitdata.showEdit');
+Route::post('/visitdata/{visitData}/edit', 'VisitDataController@edit')->name('visitdata.edit');
 Route::post('/visitdata/{visitData}/delete', 'VisitDataController@delete')->name('visitdata.delete');
 
