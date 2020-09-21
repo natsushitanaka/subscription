@@ -2,12 +2,14 @@
 
 @section('content')
 
-<h3>
-    {{ $customer->name }}'s Data
-    <a href="/customer/{{$customer->id}}/edit">[Edit]</a>
-</h3>
+<h3><a href="/customer/{{$customer->id}}/edit">[Edit]</a></h3>
 
 <table class="table">
+
+    <tr>
+        <th>Name</th>
+        <td>{{ $customer->name }}</td>
+    </tr>
 
     <tr>
         <th>Age</th>

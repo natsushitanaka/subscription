@@ -2,7 +2,13 @@
 
 @section('content')
 
-<h2>Welcome to GAO</h2>
+<p>Customers, birthday is this month</p>
+
+<ul>
+    @foreach($customers as $customer)
+    <li><a href="/customer/{{$customer->id}}/data">{{ $customer->name }}</a>:{{ $customer->birth }}</li>
+    @endforeach
+</ul>
 
 <!-- {!! QrCode::format('png')->size(100)->generate('https://kakurebakitchengao.business.site/') !!} -->
 

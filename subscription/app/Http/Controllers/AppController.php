@@ -12,6 +12,7 @@ use Carbon\Carbon;
 use App\Mail\HelloEmail;
 use Mail;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
+use App\Http\Controllers\Input;
 
 class AppController extends Controller
 {
@@ -24,8 +25,16 @@ class AppController extends Controller
     // Customer一覧
     public function list()
     {
-        $customers = Customer::all();
-        
+        // Planで検索
+        if($_GET['plan'] === "0"){
+            $customers = Customer::where('plan', '0')->get();
+        }elseif($_GET['plan'] === "1"){
+            $customers = Customer::where('plan', '1')->get();
+        }else{
+            $customers = Customer::all();
+        }
+
+        // Customerが登録されていなかったら登録画面に
         if(is_null($customers->first())){
             return view('customer.add', [
                 'msg' => 'Please add customer as no data yet.',
@@ -34,6 +43,7 @@ class AppController extends Controller
 
         return view('customer.list', [
             'customers' => $customers,
+            'plan' => $_GET['plan'],
         ]);
     }
 
@@ -101,8 +111,13 @@ class AppController extends Controller
             // Planテーブルに追加、customer_idと紐付ける
             Plan::create(['customer_id' => $customer->id]);
         }
-
+        
+        // 来店時、本人認証用のQrcodeを作成、customer_id.pngで保存
         \QrCode::format('png')->size(150)->generate('https://qiita.com', public_path('/qrcode/'. $customer->id . '.png'));
+        // \QrCode::format('png')->size(150)->generate('/check/{{$customer->id}}', public_path('/qrcode/'. $customer->id . '.png'));
+        
+        // Qrcodeが記載されたメールを送信
+        Mail::to('owazo443@gmail.com')->send(new HelloEmail($customer, '30'));
 
         return redirect()->route('customer.add');
     }
@@ -175,15 +190,14 @@ class AppController extends Controller
             // 残り日数に応じてメール送信
             // $leftでメールのviewを指定
             switch($left){
-                case 30:
-                    // Mail::to('owazo443@gmail.com')->send(new HelloEmail($customer, $left));
-                break;
 
+                // 失効７日前の通知
                 case 7:
                     // Mail::to('owazo443@gmail.com')->send(new HelloEmail($customer, $left));
                 break;
 
-                case 0:
+                // 失効日の通知
+                case 1:
                     // Mail::to('owazo443@gmail.com')->send(new HelloEmail($customer, $left));
                     
                     // Plan、plan_started_atカラムを初期化
@@ -212,12 +226,12 @@ class AppController extends Controller
         }
 
         // 誕生日にメール送信
-        if($customer->birth === Carbon::now()->format('Y-m-d')){
-            Mail::to('owazo443@gmail.com')->send(new HelloEmail($customer, 'birthday'));
-        }
+        // if($customer->birth === Carbon::now()->format('Y-m-d')){
+        //     Mail::to('owazo443@gmail.com')->send(new HelloEmail($customer, 'birthday'));
+        // }
 
-        // Customerの誕生月に店舗に通知メール送信
-        if($birth_month === Carbon::now()->format('M')){
+        // Customerの誕生月初日に店舗に通知メール送信
+        if(date('m-d', strtotime($birth_month. '-1')) === date('m-d', strtotime('first day of this month'))){
             Mail::to(Auth::user()->email)->send(new HelloEmail($customer, 'birthdayAnnounce'));
         }
 

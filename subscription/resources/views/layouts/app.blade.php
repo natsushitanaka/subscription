@@ -67,7 +67,7 @@
 
         <a href="{{ route('home') }}" class="btn btn-info">Home</a>
         <a href="{{ route('customer.add') }}" class="btn btn-info">Register Customer</a>
-        <a href="{{ route('customer.list') }}" class="btn btn-info">Customer List</a>
+        <a href="/customer/list?plan=2" class="btn btn-info">Customer List</a>
         <a href="{{ route('customer.list.deleted') }}" class="btn btn-info">Customer List Deleted</a>
 
 

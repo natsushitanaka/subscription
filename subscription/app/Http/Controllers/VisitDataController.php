@@ -57,7 +57,7 @@ class VisitDataController extends Controller
     {
         $visit_data = new VisitData();
         $visit_data->customer_id = $customer->id;
-        $visit_data->date = date("Y-m-d", strtotime(Carbon::now()));
+        $visit_data->date = Carbon::now()->format('Y-m-d');
         $visit_data->save();
 
         return redirect()->route('data', [
