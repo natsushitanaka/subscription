@@ -52,7 +52,7 @@ class SendMail extends Command
             
             // 誕生日にメール送信
             if($customer->birth === Carbon::now()->format('Y-m-d')){
-                Mail::to('owazo443@gmail.com')->send(new HelloEmail($customer, 'birthday'));
+                Mail::to($customer->email)->send(new HelloEmail($customer, 'birthday'));
             }
             
             // 期限日、残り日数を取得
@@ -68,12 +68,12 @@ class SendMail extends Command
 
                 // 失効７日前の通知
                 case 7:
-                    Mail::to('owazo443@gmail.com')->send(new HelloEmail($customer, $left));
+                    Mail::to($customer->email)->send(new HelloEmail($customer, $left));
                 break;
 
                 // 失効日の通知
                 case 1:
-                    Mail::to('owazo443@gmail.com')->send(new HelloEmail($customer, $left));
+                    Mail::to($customer->email)->send(new HelloEmail($customer, $left));
                     
                     // Plan、plan_started_atカラムを初期化
                     $customer->plan = 0;

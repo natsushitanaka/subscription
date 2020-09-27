@@ -8,8 +8,6 @@
 
 <h2><a href="/customer/{{$customer->id}}">{{ $customer->name }}</a>'s Data</h2>
 
-<a href="/check/{{$customer->id}}">To Check page</a>
-
   <form action="/visitdata/{{$customer->id}}/add" class="form-fluid" method="post">
 @csrf
   <fieldset>

@@ -43,7 +43,7 @@ class AppController extends Controller
 
         return view('customer.list', [
             'customers' => $customers,
-            'plan' => $_GET['plan'],
+            'plan' => $request->plan,
         ]);
     }
 
@@ -225,10 +225,9 @@ class AppController extends Controller
     public function startPlan($customer)
     {
         // 来店時、本人認証用のQrcodeを作成、customer_id.pngで保存
-        \QrCode::format('png')->size(150)->generate('https://qiita.com', public_path('/qrcode/'. $customer->id . '.png'));
-        // \QrCode::format('png')->size(150)->generate('/check/{{$customer->id}}', public_path('/qrcode/'. $customer->id . '.png'));
+        \QrCode::format('png')->size(150)->generate('http://os3-362-14008.vs.sakura.ne.jp/check/{{$customer->id}}', public_path('/qrcode/'. $customer->id . '.png'));
         
         // Qrcodeが記載されたメールを送信
-        Mail::to('owazo443@gmail.com')->send(new HelloEmail($customer, '30'));        
+        Mail::to($customer->email)->send(new HelloEmail($customer, '30'));        
     }
 }

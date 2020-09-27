@@ -29,12 +29,12 @@ class Customer extends Model
     {
         parent::boot();
 
-        static::deleted(function ($customer) {
-            $customer->visitDatas()->delete();
-        });
+        // static::deleted(function ($customer) {
+        //     $customer->visitDatas()->delete();
+        // });
 
-        static::deleted(function ($customer) {
-            $customer->plans()->delete();
-        });
+        // static::deleted(function ($customer) {
+        //     $customer->plans()->delete();
+        // });
     }
 }
