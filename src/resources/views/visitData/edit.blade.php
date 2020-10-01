@@ -1,12 +1,11 @@
 @extends('layouts.app')
 
-@section('error')
-    @include('share.showError')
-@endsection
-
 @section('content')
 
-  <form action="/visitdata/{{$visitData->id}}/edit" class="form-fluid" method="post">
+@include('share.nav')
+@include('share.showError')
+
+<form action="/visitdata/{{$visitData->id}}/edit" class="form-fluid" method="post">
 @csrf
   <fieldset>
     <legend>Edit Visit Data</legend>

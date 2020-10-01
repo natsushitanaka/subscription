@@ -1,6 +1,21 @@
+h2, table{
+    text-align: center;
+}
 
-.table{
-    width: auto;
+.form{
+    margin: 10px auto;
+}
+
+.data_form{
+    margin: 30px auto;
+}
+
+.navi{
+    margin-bottom: 20px;
+}
+
+.navbar-item{
+    padding-left: 30px;
 }
 
 .err{

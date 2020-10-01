@@ -2,53 +2,61 @@
 
 @section('content')
 
+@include('share.nav')
+
 @if(isset($msg))
 <span class="err">{{ $msg }}</span>
 @endif
 
-<h2>Deleted Customer List</h2>
+<div class="container">
+    <div class="row">
+        <h2 class="col-6">非アクティブ顧客リスト</h2>
+    </div>
+</div>
 
-<table class="table">
+<div class="container">
+    <table class="table">
 
-    <tr>
-        <th>Name</th>
-        <th>Created at</th>
-        <th>Plan</th>
-        <th></th>
-        <th></th>
-    </tr>
+        <tr>
+            <th>氏名</th>
+            <th>登録日</th>
+            <th>プランの有無</th>
+            <th></th>
+            <th></th>
+        </tr>
 
-    @foreach($customers as $customer)
+        @foreach($customers as $customer)
 
-    <tr>
-        <td><a href="/customer/{{$customer->id}}">{{ $customer->name }}</a></td>
+        <tr>
+            <td><a href="/customer/{{$customer->id}}">{{ $customer->name }}</a></td>
 
-        <td>{{ date("Y/m/d", strtotime($customer->created_at)) }}</td>
+            <td>{{ date("Y/m/d", strtotime($customer->created_at)) }}</td>
 
-        @if($customer->plan === 0)
-        <td>×</td>
-        @else
-        <td>◯</td>
-        @endif
+            @if($customer->plan === 0)
+            <td>×</td>
+            @else
+            <td>◯</td>
+            @endif
 
-        <form action="/customer/{{$customer->id}}/restore" method="post">
-        @csrf
-        <td>
-            <button type="submit" class="btn btn-primary btn-sm">Resote</button>
-        </td>
-        </form>
+            <form action="/customer/{{$customer->id}}/restore" method="post">
+            @csrf
+            <td>
+                <button type="submit" class="btn btn-primary btn-sm">再登録</button>
+            </td>
+            </form>
 
-        <form action="/customer/{{$customer->id}}/forceDelete" method="post">
-        @csrf
-        <td>
-            <button type="submit" class="btn btn-primary btn-sm">Destroy</button>
-        </td>
-        </form>
+            <form action="/customer/{{$customer->id}}/forceDelete" method="post">
+            @csrf
+            <td>
+                <button type="submit" class="btn btn-primary btn-sm">完全削除</button>
+            </td>
+            </form>
 
-    </tr>
-    
-    @endforeach
+        </tr>
+        
+        @endforeach
 
-</table>
+    </table>
 
+</div>
 @endsection

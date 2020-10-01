@@ -2,65 +2,68 @@
 
 @section('content')
 
-<h3><a href="/customer/{{$customer->id}}/edit">[Edit]</a></h3>
+@include('share.nav')
 
-<table class="table">
+<div class="container">
+    <div class="row">
+        <h2 class="col-6"><a href="/customer/{{$customer->id}}/edit">{{ $customer->name }}のデータ【編集する】</a></h2>
+    </div>
+</div>
 
-    <tr>
-        <th>Name</th>
-        <td>{{ $customer->name }}</td>
-    </tr>
+<div class="container">
+    <table class="table">
 
-    <tr>
-        <th>Age</th>
-        <td>{{ $formatted['age'] }}</td>
-    </tr>
-    
-    <tr>
-        <th>Month of Birth</th>
-        <td>{{ $formatted['birth_month'] }}</td>
-    </tr>
-    
-    <tr>
-        <th>Created at</th>
-        <td>{{ date("Y/m/d", strtotime($customer->created_at)) }}</td>
-    </tr>
+        <tr>
+            <th>年齢</th>
+            <td>{{ $formatted['age'] ? : '-' }}</td>
+        </tr>
+        
+        <tr>
+            <th>誕生日</th>
+            <td>{{ $customer->birth ? : '-' }}</td>
+        </tr>
+        
+        <tr>
+            <th>登録日</th>
+            <td>{{ date("Y/m/d", strtotime($customer->created_at)) }}</td>
+        </tr>
 
-    <tr>
-        <th>Num of Visits</th>
-        <td>{{ $total_data['visit'] }}</td>
-    </tr>
+        <tr>
+            <th>来店回数</th>
+            <td>{{ $total_data['visit'] }}</td>
+        </tr>
 
-    <tr>
-        <th>Ave Payment</th>
-        <td>{{ $total_data['ave'] }}</td>
-    </tr>
+        <tr>
+            <th>平均単価</th>
+            <td>{{ $total_data['ave'] }}</td>
+        </tr>
 
-    <tr>
-        <th>total Payment</th>
-        <td>{{ $total_data['payment'] }}</td>
-    </tr>
+        <tr>
+            <th>利用総額</th>
+            <td>{{ $total_data['payment'] }}</td>
+        </tr>
 
-    <tr>
-        <th>started at (Plan)</th>
-        <td>{{ $customer->plan_started_at }}</td>
-    </tr>
+        <tr>
+            <th>プラン開始日</th>
+            <td>{{ $customer->plan_started_at ? : '-' }}</td>
+        </tr>
 
-    <tr>
-        <th>due date (Plan)</th>
-        <td>{{ $formatted['due_date'] }}</td>
-    </tr>
+        <tr>
+            <th>プラン終了日</th>
+            <td>{{ $formatted['due_date'] }}</td>
+        </tr>
 
-    <tr>
-        <th>days left (Plan)</th>
-        <td>{{ $formatted['left'] }}</td>
-    </tr>
+        <tr>
+            <th>プラン残り日数</th>
+            <td>{{ $formatted['left'] }}</td>
+        </tr>
 
-    <tr>
-        <th>Record of Planed</th>
-        <td>{{ $total_data['plan'] }}</td>
-    </tr>
+        <tr>
+            <th>プラン利用回数</th>
+            <td>{{ $total_data['plan'] }}</td>
+        </tr>
 
-</table>
+    </table>
+</div>
 
 @endsection

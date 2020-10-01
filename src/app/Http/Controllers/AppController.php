@@ -111,7 +111,7 @@ class AppController extends Controller
                 $customer->save();
                 // Planテーブルに追加、customer_idと紐付ける
                 Plan::create(['customer_id' => $customer->id]);
-                App::startPlan($customer);
+                $this->startPlan($customer);
             }
             
         });
@@ -140,7 +140,7 @@ class AppController extends Controller
                 $customer->plan_started_at = Carbon::now();
                 $customer->save();
                 Plan::create(['customer_id' => $customer->id]);
-                App::startPlan($customer);
+                $this->startPlan($customer);
             }
         });
     
@@ -172,12 +172,12 @@ class AppController extends Controller
         // 論理削除されたレコードを含めたプラン利用回数の合計を取得
         $total_plan = Plan::withTrashed()->where('customer_id', $customer->id)->count('id');
 
-        // それぞれ値が0ならNo Dataを代入し、配列で保持     
+        // それぞれ値が0なら'-'を代入し、配列で保持     
         $total_data = [
-            'payment' => $total_payment === 0 ? 'No Data' : $total_payment,
-            'ave' => $total_people === 0 ? 'No Data' : floor($total_payment/$total_people),
-            'visit' => $total_visit === 0 ? 'No Data' : $total_visit,
-            'plan' => $total_plan === 0 ? 'No Data' : $total_plan,
+            'payment' => $total_payment === 0 ? '-' : $total_payment,
+            'ave' => $total_people === 0 ? '-' : floor($total_payment/$total_people),
+            'visit' => $total_visit === 0 ? '-' : $total_visit,
+            'plan' => $total_plan === 0 ? '-' : $total_plan,
         ];
 
         // Plan購入者の場合
@@ -192,9 +192,9 @@ class AppController extends Controller
 
         // Plan購入者でない場合
         }else{
-            $start = 'not planed';
-            $due_date = 'not planed';
-            $left = 'not planed';
+            $start = '-';
+            $due_date = '-';
+            $left = '-';
         }
 
         // 年齢、誕生月を取得
@@ -225,7 +225,7 @@ class AppController extends Controller
     public function startPlan($customer)
     {
         // 来店時、本人認証用のQrcodeを作成、customer_id.pngで保存
-        \QrCode::format('png')->size(150)->generate('http://os3-362-14008.vs.sakura.ne.jp/check/{{$customer->id}}', public_path('/qrcode/'. $customer->id . '.png'));
+        \QrCode::format('png')->size(150)->generate('http://os3-362-14008.vs.sakura.ne.jp/check/' . $customer->id, public_path('/qrcode/'. $customer->id . '.png'));
         
         // Qrcodeが記載されたメールを送信
         Mail::to($customer->email)->send(new HelloEmail($customer, '30'));        

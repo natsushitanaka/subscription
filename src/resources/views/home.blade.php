@@ -2,13 +2,53 @@
 
 @section('content')
 
-<p>Customers, birthday is this month</p>
+@include('share.nav')
 
-<ul>
-    @foreach($customers as $customer)
-    <li><a href="/customer/{{$customer->id}}/data">{{ $customer->name }}</a>:{{ $customer->birth }}</li>
-    @endforeach
-</ul>
+<div class="container">
+    <div class="row">
+        <h2 class="col-6">今月、誕生日のお客様</h2>
+    </div>
+</div>
+
+<div class="container">
+    <table class="table">
+
+        <tr>
+            <th>氏名</th>
+            <th>誕生日</th>
+            <th>プランの有無</th>
+            <th>来店データ</th>
+            <th>削除する</th>
+        </tr>
+
+        @foreach($customers as $customer)
+
+        <tr>
+            <td><a href="/customer/{{$customer->id}}">{{ $customer->name }}</a></td>
+
+            <td>{{ date("Y/m/d", strtotime($customer->birth)) }}</td>
+
+            @if($customer->plan === 0)
+            <td>×</td>
+            @else
+            <td>◯</td>
+            @endif
+
+            <td><a href="/customer/{{$customer->id}}/data">=></a></td>
+
+            <form action="/customer/{{$customer->id}}/delete" method="post">
+            @csrf
+            <td>
+                <button type="submit" class="btn btn-primary btn-sm">×</button>
+            </td>
+            </form>
+
+        </tr>
+        
+        @endforeach
+
+    </table>
+</div>
 
 <!-- {!! QrCode::format('png')->size(100)->generate('https://kakurebakitchengao.business.site/') !!} -->
 
