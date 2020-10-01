@@ -4,11 +4,11 @@
     サブスクサービス（３０日間）利用者の管理・来店データの集積
 
 【使用した技術】
-    フレームワークdLaraveld    
-    データベースdMysqld
-    環境構築dDockerd
-    デプロイdさくらVPSd
-    その他dBootstrap, Nginx, smtpMailer, cron, simplesoftwareio/simple-qrcode, Gitd
+    フレームワーク:Laravel 
+    データベース:Mysql
+    環境構築:Docker
+    デプロイ:さくらVPS
+    その他:Bootstrap, Nginx, smtpMailer, cron, simplesoftwareio/simple-qrcode, Git
     
 
 【仕様】
