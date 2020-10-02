@@ -102,10 +102,9 @@ class AppController extends Controller
     public function add(AddCustomer $request)
     {        
         DB::transaction(function() use($request){
-            $customer = Customer::create($request->all());
-            $user = Auth::user();
-
             if($request->plan === "1"){
+                $customer = Customer::create($request->all());
+                $user = Auth::user();    
                 // プラン購入者は
                 // plan_started_atカラムに現在時刻追加
                 $customer->plan = "1";
@@ -229,7 +228,7 @@ class AppController extends Controller
     public function startPlan($customer, $data)
     {
         // 来店時、本人認証用のQrcodeを作成、customer_id.pngで保存
-        \QrCode::format('png')->size(150)->generate('http://os3-362-14008.vs.sakura.ne.jp/check/' . $customer->id, public_path('/qrcode/'. $customer->id . '.png'));
+        \QrCode::format('png')->size(150)->generate('http://natsushi.net/check/' . $customer->id, public_path('/qrcode/'. $customer->id . '.png'));
         
         // Qrcodeが記載されたメールを送信
         Mail::to($customer->email)->send(new HelloEmail($customer, $data, 'start'));        

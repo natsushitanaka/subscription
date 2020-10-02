@@ -12,18 +12,18 @@ class HelloEmail extends Mailable
     use Queueable, SerializesModels;
     public $customer;
     public $data;
-    public $email_view;
+    public $view;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($customer, $user, $email_view)
+    public function __construct($customer, $user, $view)
     {
         $this->customer = $customer;
         $this->user = $user;
-        $this->email_view = $email_view;
+        $this->view = $view;
     }
 
     /**
@@ -33,8 +33,8 @@ class HelloEmail extends Mailable
      */
     public function build()
     {
-        return $this->view('email/'.$this->email_view)
-                        ->subject('[Notification From GAO]')
+        return $this->view('email/'.$this->view)
+                        ->subject('From：' . $this->user->name)
                         ->with('customer', $this->customer)
                         ->with('user', $this->user);
     }
