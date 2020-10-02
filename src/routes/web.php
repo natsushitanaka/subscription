@@ -18,6 +18,8 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/setting', 'HomeController@showSet')->name('setting');
+Route::post('/setting', 'HomeController@set');
 Route::get('/check/{customer}', 'VisitDataController@check')->name('check');
 Route::get('/customer/{customer}/data', 'AppController@data')->name('data');
 Route::get('/customer/list', 'AppController@list')->name('customer.list');

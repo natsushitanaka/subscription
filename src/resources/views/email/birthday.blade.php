@@ -1,8 +1,5 @@
-<h2>Dear {{ $data->name }}</h2>
 <h2>Happy Birthday!!</h2>
-
+<p>ご来店お待ちしております。</p>
 <P>
-    This is 
-    <a href="https://kakurebakitchengao.business.site/">HOMEPAGE</a>
-    about us.
+    <a href="https://kakurebakitchengao.business.site/">ホームページ</a>
 </P>

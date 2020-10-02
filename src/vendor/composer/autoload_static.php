@@ -451,10 +451,10 @@ class ComposerStaticInit21b5edd92c7b41b5b602348e041f00ba
     );
 
     public static $classMap = array (
+        'App\\Console\\Commands\\SendMail' => __DIR__ . '/../..' . '/app/Console/Commands/SendMail.php',
         'App\\Console\\Kernel' => __DIR__ . '/../..' . '/app/Console/Kernel.php',
         'App\\Customer' => __DIR__ . '/../..' . '/app/Customer.php',
         'App\\Exceptions\\Handler' => __DIR__ . '/../..' . '/app/Exceptions/Handler.php',
-        'App\\Http\\Controllers\\AnnounceController' => __DIR__ . '/../..' . '/app/Http/Controllers/AnnounceController.php',
         'App\\Http\\Controllers\\AppController' => __DIR__ . '/../..' . '/app/Http/Controllers/AppController.php',
         'App\\Http\\Controllers\\Auth\\ConfirmPasswordController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/ConfirmPasswordController.php',
         'App\\Http\\Controllers\\Auth\\ForgotPasswordController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/ForgotPasswordController.php',
@@ -476,6 +476,7 @@ class ComposerStaticInit21b5edd92c7b41b5b602348e041f00ba
         'App\\Http\\Requests\\AddCustomer' => __DIR__ . '/../..' . '/app/Http/Requests/AddCustomer.php',
         'App\\Http\\Requests\\AddVisitData' => __DIR__ . '/../..' . '/app/Http/Requests/AddVisitData.php',
         'App\\Mail\\HelloEmail' => __DIR__ . '/../..' . '/app/Mail/HelloEmail.php',
+        'App\\Plan' => __DIR__ . '/../..' . '/app/Plan.php',
         'App\\Providers\\AppServiceProvider' => __DIR__ . '/../..' . '/app/Providers/AppServiceProvider.php',
         'App\\Providers\\AuthServiceProvider' => __DIR__ . '/../..' . '/app/Providers/AuthServiceProvider.php',
         'App\\Providers\\BroadcastServiceProvider' => __DIR__ . '/../..' . '/app/Providers/BroadcastServiceProvider.php',

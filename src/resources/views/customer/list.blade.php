@@ -16,7 +16,7 @@
                 <input type="radio" id="1" name="plan" value="1">
                 <label for="0">プラン無</label>
                 <input type="radio" id="0" name="plan" value="0">
-                <button type="submit" class="btn btn-primary">Search</button>
+                <button type="submit" class="btn btn-primary btn-sm">Search</button>
             </form>
         </div>
     </div>
@@ -29,7 +29,7 @@
             <th>氏名</th>
             <th>登録日</th>
             <th>プランの有無</th>
-            <th>来店データ</th>
+            <th>-</th>
             <th>非アクティブにする</th>
         </tr>
 
@@ -46,7 +46,7 @@
             <td>◯</td>
             @endif
 
-            <td><a href="/customer/{{$customer->id}}/data">=></a></td>
+            <td><a href="/customer/{{$customer->id}}/data" class="btn btn-primary btn-sm">来店データを見る</a></td>
 
             <form action="/customer/{{$customer->id}}/delete" method="post">
             @csrf

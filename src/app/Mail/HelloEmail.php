@@ -10,6 +10,7 @@ use Illuminate\Queue\SerializesModels;
 class HelloEmail extends Mailable
 {
     use Queueable, SerializesModels;
+    public $customer;
     public $data;
     public $email_view;
 
@@ -18,9 +19,10 @@ class HelloEmail extends Mailable
      *
      * @return void
      */
-    public function __construct($data, $email_view)
+    public function __construct($customer, $user, $email_view)
     {
-        $this->data = $data;
+        $this->customer = $customer;
+        $this->user = $user;
         $this->email_view = $email_view;
     }
 
@@ -33,7 +35,7 @@ class HelloEmail extends Mailable
     {
         return $this->view('email/'.$this->email_view)
                         ->subject('[Notification From GAO]')
-                        // ->from('Kitchen GAO')
-                        ->with('data', $this->data);
+                        ->with('customer', $this->customer)
+                        ->with('user', $this->user);
     }
 }

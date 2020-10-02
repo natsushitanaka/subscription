@@ -5,13 +5,6 @@ services:
     build: ./docker/php
     volumes:
       - .:/var/www/
-
-#  cron:
-#    build: ./docker/cron
-#    volumes:
-#      - ./docker/cron/crontab:/var/spool/cron/crontabs/root
-#    depends_on:
-#      - php   
  
   nginx:
     image: nginx

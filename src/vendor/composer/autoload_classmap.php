@@ -6,10 +6,10 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+    'App\\Console\\Commands\\SendMail' => $baseDir . '/app/Console/Commands/SendMail.php',
     'App\\Console\\Kernel' => $baseDir . '/app/Console/Kernel.php',
     'App\\Customer' => $baseDir . '/app/Customer.php',
     'App\\Exceptions\\Handler' => $baseDir . '/app/Exceptions/Handler.php',
-    'App\\Http\\Controllers\\AnnounceController' => $baseDir . '/app/Http/Controllers/AnnounceController.php',
     'App\\Http\\Controllers\\AppController' => $baseDir . '/app/Http/Controllers/AppController.php',
     'App\\Http\\Controllers\\Auth\\ConfirmPasswordController' => $baseDir . '/app/Http/Controllers/Auth/ConfirmPasswordController.php',
     'App\\Http\\Controllers\\Auth\\ForgotPasswordController' => $baseDir . '/app/Http/Controllers/Auth/ForgotPasswordController.php',
@@ -31,6 +31,7 @@ return array(
     'App\\Http\\Requests\\AddCustomer' => $baseDir . '/app/Http/Requests/AddCustomer.php',
     'App\\Http\\Requests\\AddVisitData' => $baseDir . '/app/Http/Requests/AddVisitData.php',
     'App\\Mail\\HelloEmail' => $baseDir . '/app/Mail/HelloEmail.php',
+    'App\\Plan' => $baseDir . '/app/Plan.php',
     'App\\Providers\\AppServiceProvider' => $baseDir . '/app/Providers/AppServiceProvider.php',
     'App\\Providers\\AuthServiceProvider' => $baseDir . '/app/Providers/AuthServiceProvider.php',
     'App\\Providers\\BroadcastServiceProvider' => $baseDir . '/app/Providers/BroadcastServiceProvider.php',

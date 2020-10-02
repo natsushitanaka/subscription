@@ -13,6 +13,7 @@ use App\Mail\HelloEmail;
 use Mail;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use App\Http\Controllers\Input;
+use Illuminate\Support\Facades\DB;
 
 class AppController extends Controller
 {
@@ -102,6 +103,7 @@ class AppController extends Controller
     {        
         DB::transaction(function() use($request){
             $customer = Customer::create($request->all());
+            $user = Auth::user();
 
             if($request->plan === "1"){
                 // プラン購入者は
@@ -111,7 +113,7 @@ class AppController extends Controller
                 $customer->save();
                 // Planテーブルに追加、customer_idと紐付ける
                 Plan::create(['customer_id' => $customer->id]);
-                $this->startPlan($customer);
+                $this->startPlan($customer, $user);
             }
             
         });
@@ -128,10 +130,10 @@ class AppController extends Controller
         DB::transaction(function() use($customer, $request){
             // データ更新
             $customer->update($request->all());
-            
 
             // Planテーブルの論理削除されていないレコード数取得
             $count_plan = Plan::where('customer_id', $customer->id)->count('id');
+            $user = Auth::user();
 
             // すでにレコードがある場合はPlanを追加しない
             // Planテーブルのレコードは手動で削除できない
@@ -140,7 +142,7 @@ class AppController extends Controller
                 $customer->plan_started_at = Carbon::now();
                 $customer->save();
                 Plan::create(['customer_id' => $customer->id]);
-                $this->startPlan($customer);
+                $this->startPlan($customer, $user);
             }
         });
     
@@ -164,6 +166,8 @@ class AppController extends Controller
     // Customer詳細
     public function detail(Customer $customer)
     {        
+        $user = Auth::user();
+
         // VisitData、Planから金額、人数、来店回数の合計を取得
         $total_payment = VisitData::where('customer_id', $customer->id)->sum('pay');
         $total_people = VisitData::where('customer_id', $customer->id)->sum('person');
@@ -185,7 +189,7 @@ class AppController extends Controller
 
             // 期限日、残り日数を取得
             $start = $customer->plan_started_at;
-            $due_date = date("Y-m-d", strtotime($start . " +31 day"));
+            $due_date = date("Y-m-d", strtotime($start . " +"  . $user->expiring_date . " day"));
             $end = Carbon::parse($due_date);
             $now = Carbon::now();
             $left = $now->diffIndays($end);
@@ -222,12 +226,12 @@ class AppController extends Controller
         ]);
     }
 
-    public function startPlan($customer)
+    public function startPlan($customer, $data)
     {
         // 来店時、本人認証用のQrcodeを作成、customer_id.pngで保存
         \QrCode::format('png')->size(150)->generate('http://os3-362-14008.vs.sakura.ne.jp/check/' . $customer->id, public_path('/qrcode/'. $customer->id . '.png'));
         
         // Qrcodeが記載されたメールを送信
-        Mail::to($customer->email)->send(new HelloEmail($customer, '30'));        
+        Mail::to($customer->email)->send(new HelloEmail($customer, $data, 'start'));        
     }
 }

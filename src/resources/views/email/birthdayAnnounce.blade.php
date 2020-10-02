@@ -1,9 +1,9 @@
-<h2>Notification</h2>
+<h2>通知メール</h2>
 
-<p>This month is {{ $data->name }}'s birthday.</p>
+<p>今月、誕生日のお客様</p>
 
+@foreach($customer as $each)
 <p>
-    {{ $data->name }}'s page is 
-    <a href="/customer/{{$data->id}}">HERE</a>
-    .
+    <a href="/customer/{{$each->id}}">{{ $each->name }}</a>
 </p>
+@endforeach

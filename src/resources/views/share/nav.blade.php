@@ -3,16 +3,19 @@
         <div class="collapse navbar-collapse justify-content-around">
             <ul class="nav navbar-nav">
                 <li class="navbar-item">
-                    <a href="{{ route('home') }}" class="nav-link">ホーム<span class="sr-only">(current)</span></a>
+                    <a href="{{ route('home') }}" class="nav-link">ホーム</a>
                 </li>
                 <li class="navbar-item">
-                    <a href="{{ route('customer.add') }}" class="nav-link">顧客を登録する<span class="sr-only">(current)</span></a>
+                    <a href="/setting" class="nav-link">設定を変更する</a>
                 </li>
                 <li class="navbar-item">
-                    <a href="/customer/list?plan=2" class="nav-link">顧客リスト<span class="sr-only">(current)</span></a>
+                    <a href="{{ route('customer.add') }}" class="nav-link">顧客を登録する</a>
                 </li>
                 <li class="navbar-item">
-                    <a href="{{ route('customer.list.deleted') }}" class="nav-link">非アクティブ顧客リスト<span class="sr-only">(current)</span></a>
+                    <a href="/customer/list?plan=2" class="nav-link">顧客リスト</a>
+                </li>
+                <li class="navbar-item">
+                    <a href="{{ route('customer.list.deleted') }}" class="nav-link">非アクティブ顧客リスト</a>
                 </li>
             </ul>
 

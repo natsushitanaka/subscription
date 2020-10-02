@@ -4,6 +4,7 @@ namespace App\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use App\User;
 
 class Kernel extends ConsoleKernel
 {
@@ -24,8 +25,9 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
+        $user = User::first();
         $schedule->command('Mail:send')
-             ->dailyAt('10:00');
+             ->dailyAt($user->what_time_mail . ':00');
     }
 
     /**

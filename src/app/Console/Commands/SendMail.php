@@ -7,10 +7,14 @@ use App\Mail\HelloEmail;
 use Mail;
 use App\Customer;
 use App\Plan;
+use App\User;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 class SendMail extends Command
 {
+    private $customers_on_birth = [];
+
     /**
      * The name and signature of the console command.
      *
@@ -43,37 +47,33 @@ class SendMail extends Command
     public function handle()
     {
         $customers = Customer::where('plan', '1')->get();
+        $user = Auth::user();
 
         foreach($customers as $customer){
-            // Customerの誕生月初日に店舗に通知メール送信
-            if(date('m-d', strtotime($customer->birth_month. '-1')) === date('m-d', strtotime('first day of this month'))){
-                Mail::to(Auth::user()->email)->send(new HelloEmail($customer, 'birthdayAnnounce'));
-            }
-            
-            // 誕生日にメール送信
-            if($customer->birth === Carbon::now()->format('Y-m-d')){
-                Mail::to($customer->email)->send(new HelloEmail($customer, 'birthday'));
-            }
-            
             // 期限日、残り日数を取得
             $start = $customer->plan_started_at;
-            $due_date = date("Y-m-d", strtotime($start . " +31 day"));
+            $due_date = date("Y-m-d", strtotime($start . " + " . $user->expiring_date ." day"));
             $end = Carbon::parse($due_date);
             $now = Carbon::now();
             $left = $now->diffIndays($end);
-
+            
+            // 誕生日にメール送信
+            if($customer->birth === Carbon::now()->format('Y-m-d')){
+                Mail::to($customer->email)->send(new HelloEmail($customer, $user, 'birthday'));
+            }
+            
             // 残り日数に応じてメール送信
             // $leftでメールのviewを指定
             switch($left){
 
-                // 失効７日前の通知
-                case 7:
-                    Mail::to($customer->email)->send(new HelloEmail($customer, $left));
+                // 失効n日前の通知
+                case $user->how_days_mail:
+                    Mail::to($customer->email)->send(new HelloEmail($customer, $user, 'premail'));
                 break;
 
                 // 失効日の通知
                 case 1:
-                    Mail::to($customer->email)->send(new HelloEmail($customer, $left));
+                    Mail::to($customer->email)->send(new HelloEmail($customer, $user, 'expired'));
                     
                     // Plan、plan_started_atカラムを初期化
                     $customer->plan = 0;
@@ -85,5 +85,17 @@ class SendMail extends Command
                 break;
             }
         }
+
+        // Customerの誕生月初日に店舗に通知メール送信
+        foreach($customers as $customer){
+            if(date("n", strtotime($customer->birth)) == Carbon::now()->format('n')){
+                $this->customers_on_birth[] = $customer;
+            }
+        }
+
+        if(date('m-d', strtotime($customer->birth_month. '-1')) === date('m-d', strtotime('first day of this month'))){
+            Mail::to(Auth::user()->email)->send(new HelloEmail($this->customers_on_birth, $user, 'birthdayAnnounce'));
+        }
+        
     }
 }

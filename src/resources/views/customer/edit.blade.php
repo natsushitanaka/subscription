@@ -43,7 +43,8 @@
       <div class="form-group row">
         <label for="plan" class="col-lg-2 control-label">プランを利用する</label>
         <div class="col-lg-4">
-          <input name="plan" type="checkbox" id="plan" value="1" {{ $customer->plan ==  ? 'checked' : '' }}>
+          <input name="plan" type="checkbox" id="plan" value="1" {{ $customer->plan == '1'  ? 'checked' : '' }}>
+          ＊プランの取り消しはできません。
         </div>
       </div>
 
