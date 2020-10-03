@@ -43,6 +43,16 @@ class User extends Authenticatable
         return $this->hasMany('App\Customer');
     }
 
+    public function visitDatas()
+    {
+        return $this->hasMany('App\VisitData');
+    }
+
+    public function plans()
+    {
+        return $this->hasMany('App\Plan');
+    }
+
     public static function boot()
     {
         parent::boot();

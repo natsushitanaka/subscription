@@ -91,6 +91,10 @@ class AppController extends Controller
     // Customer編集フォーム表示
     public function showEdit(Customer $customer)
     {
+        if($customer->user_id !== Auth::id()){
+            abort('403');
+        }
+
         $customer = Customer::find($customer->id);
 
         return view('customer.edit', [
@@ -114,7 +118,10 @@ class AppController extends Controller
                 // plan_started_atカラムに現在時刻追加
                 $customer->plan_started_at = Carbon::now();
                 // Planテーブルに追加、customer_idと紐付ける
-                Plan::create(['customer_id' => $customer->id]);
+                Plan::create([
+                    'user_id' => Auth::id(),
+                    'customer_id' => $customer->id,
+                    ]);
                 $this->startPlan($customer);
                 $customer->save();
             }            
@@ -126,7 +133,10 @@ class AppController extends Controller
     // Customer編集
     public function edit(Customer $customer, AddCustomer $request)
     {
-        
+        if($customer->user_id !== Auth::id()){
+            abort('403');
+        }
+
         $customer = Customer::find($customer->id);
         
         DB::transaction(function() use($customer, $request){
@@ -142,7 +152,10 @@ class AppController extends Controller
                 $customer->plan = "1";
                 $customer->plan_started_at = Carbon::now();
                 $customer->save();
-                Plan::create(['customer_id' => $customer->id]);
+                Plan::create([
+                    'user_id' => Auth::id(),
+                    'customer_id' => $customer->id,
+                    ]);
                 $this->startPlan($customer);
             }
         });
@@ -154,8 +167,12 @@ class AppController extends Controller
 
     public function data(Customer $customer)
     {
+        if($customer->user_id !== Auth::id()){
+            abort('403');
+        }
+
         // VisitDataを日付降順で取得
-        $visit_datas = VisitData::where('customer_id', $customer->id)->orderByRaw('date desc')->get();
+        $visit_datas = VisitData::where('user_id', Auth::id())->where('customer_id', $customer->id)->orderByRaw('date desc')->get();
 
         return view('customer.data', [
             'customer' => $customer,
@@ -167,12 +184,16 @@ class AppController extends Controller
     // Customer詳細
     public function detail(Customer $customer)
     {        
+        if($customer->user_id !== Auth::id()){
+            abort('403');
+        }
+
         $user = User::where('id', $customer->user_id)->first();
 
         // VisitData、Planから金額、人数、来店回数の合計を取得
-        $total_payment = VisitData::where('customer_id', $customer->id)->sum('pay');
-        $total_people = VisitData::where('customer_id', $customer->id)->sum('person');
-        $total_visit = VisitData::where('customer_id', $customer->id)->count('id');
+        $total_payment = VisitData::where('user_id', Auth::id())->where('customer_id', $customer->id)->sum('pay');
+        $total_people = VisitData::where('user_id', Auth::id())->where('customer_id', $customer->id)->sum('person');
+        $total_visit = VisitData::where('user_id', Auth::id())->where('customer_id', $customer->id)->count('id');
         
         // 論理削除されたレコードを含めたプラン利用回数の合計を取得
         $total_plan = Plan::withTrashed()->where('customer_id', $customer->id)->count('id');

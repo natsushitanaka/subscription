@@ -12,6 +12,6 @@ class VisitData extends Model
     protected $table = 'visit_datas';
 
     protected $fillable = [
-        'customer_id', 'date', 'pay', 'person', 'comment',
+        'user_id', 'customer_id', 'date', 'pay', 'person', 'comment',
     ];
 }

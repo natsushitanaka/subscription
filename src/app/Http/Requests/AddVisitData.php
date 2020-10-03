@@ -25,8 +25,8 @@ class AddVisitData extends FormRequest
     {
         return [
             'date' => 'date',
-            'pay' => 'numeric',
-            'person' => 'numeric',
+            'pay' => '',
+            'person' => '',
             'comment' => 'max:100',
         ];
     }

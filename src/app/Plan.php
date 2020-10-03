@@ -12,7 +12,7 @@ class Plan extends Model
     protected $table = 'plans';
 
     protected $fillable = [
-        'customer_id',
+        'user_id', 'customer_id',
     ];
 
 }

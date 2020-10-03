@@ -18,8 +18,8 @@ class CreateVisitDatasTable extends Migration
             $table->integer('user_id')->unsigned();
             $table->integer('customer_id')->unsigned();
             $table->string('date');
-            $table->integer('pay');
-            $table->integer('person');
+            $table->integer('pay')->nullable();
+            $table->integer('person')->nullable();
             $table->text('comment')->nullable();
             $table->timestamps();
 

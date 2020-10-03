@@ -7,6 +7,7 @@ use App\VisitData;
 use App\Customer;
 use App\Http\Requests\AddVisitData;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 class VisitDataController extends Controller
 {
@@ -19,6 +20,7 @@ class VisitDataController extends Controller
     {
         $data = new VisitData();
         $data->fill($request->all());
+        $data->user_id = Auth::id();
         $data->customer_id = $id;
         $data->save();
 
@@ -29,6 +31,10 @@ class VisitDataController extends Controller
 
     public function delete(VisitData $visitData)
     {
+        if($visitData->user_id !== Auth::id()){
+            abort('403');
+        }
+
         VisitData::destroy($visitData->id);
 
         return redirect()->route('data', [
@@ -38,6 +44,10 @@ class VisitDataController extends Controller
 
     public function showEdit(VisitData $visitData)
     {
+        if($visitData->user_id !== Auth::id()){
+            abort('403');
+        }
+
         return view('visitData.edit', [
             'visitData' => $visitData,
         ]);
@@ -45,6 +55,10 @@ class VisitDataController extends Controller
 
     public function edit(VisitData $visitData, AddVisitData $request)
     {
+        if($visitData->user_id !== Auth::id()){
+            abort('403');
+        }
+
         $visitData = visitData::find($visitData->id);
         $visitData->update($request->all());
 
@@ -55,7 +69,12 @@ class VisitDataController extends Controller
 
     public function check(Customer $customer)
     {
+        if($customer->user_id !== Auth::id()){
+            abort('403');
+        }
+
         $visit_data = new VisitData();
+        $visit_data->user_id = Auth::id();
         $visit_data->customer_id = $customer->id;
         $visit_data->date = Carbon::now()->format('Y-m-d');
         $visit_data->save();
