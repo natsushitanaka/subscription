@@ -9,7 +9,7 @@ use App\Customer;
 use App\Plan;
 use App\User;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class SendMail extends Command
 {
@@ -47,7 +47,7 @@ class SendMail extends Command
     public function handle()
     {
         $customers = Customer::where('plan', '1')->get();
-        $user = Auth::user();
+        $user = User::first();
 
         foreach($customers as $customer){
             // 期限日、残り日数を取得
@@ -64,38 +64,36 @@ class SendMail extends Command
             
             // 残り日数に応じてメール送信
             // $leftでメールのviewを指定
-            switch($left){
+            DB::transaction(function() use($customer, $user, $left){
 
-                // 失効n日前の通知
-                case $user->how_days_mail:
-                    Mail::to($customer->email)->send(new HelloEmail($customer, $user, 'premail'));
-                break;
+                switch($left){
+                        // 失効n日前の通知
+                        case $user->how_days_mail:
+                            Mail::to($customer->email)->send(new HelloEmail($customer, $user, 'premail'));
+                        break;
 
-                // 失効日の通知
-                case 1:
-                    Mail::to($customer->email)->send(new HelloEmail($customer, $user, 'expired'));
-                    
-                    // Plan、plan_started_atカラムを初期化
-                    $customer->plan = 0;
-                    $customer->plan_started_at = null;
-                    $customer->save();
+                        // 失効日の通知
+                        case 0:
+                            Mail::to($customer->email)->send(new HelloEmail($customer, $user, 'expired'));
+                            
+                            // Plan、plan_started_atカラムを初期化
+                            $customer->plan = 0;
+                            $customer->plan_started_at = null;
+                            $customer->save();
 
-                    // Planテーブルのレコードを論理削除
-                    Plan::find($customer->id)->delete();
-                break;
-            }
-        }
-
+                            // Planテーブルのレコードを論理削除
+                            Plan::where('customer_id', $customer->id)->delete();
+                        break;
+                }
+            });
         // Customerの誕生月初日に店舗に通知メール送信
-        foreach($customers as $customer){
-            if(date("n", strtotime($customer->birth)) == Carbon::now()->format('n')){
+                if(date("n", strtotime($customer->birth)) == Carbon::now()->format('n')){
                 $this->customers_on_birth[] = $customer;
-            }
-        }
 
-        if(date('m-d', strtotime($customer->birth_month. '-1')) === date('m-d', strtotime('first day of this month'))){
-            Mail::to(Auth::user()->email)->send(new HelloEmail($this->customers_on_birth, $user, 'birthdayAnnounce'));
-        }
-        
+                if(date('m-d', strtotime($customer->birth_month. '-1')) === date('m-d', strtotime('first day of this month'))){
+                    Mail::to($user->email)->send(new HelloEmail($this->customers_on_birth, $user, 'birthdayAnnounce'));
+                }        
+            }
+        }        
     }
 }

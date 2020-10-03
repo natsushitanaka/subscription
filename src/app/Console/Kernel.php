@@ -27,7 +27,8 @@ class Kernel extends ConsoleKernel
     {
         $user = User::first();
         $schedule->command('Mail:send')
-             ->dailyAt($user->what_time_mail . ':00');
+             ->everyMinute();
+            //  ->dailyAt($user->what_time_mail . ':00');
     }
 
     /**
