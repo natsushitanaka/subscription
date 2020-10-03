@@ -7,12 +7,12 @@ use Illuminate\Support\Facades\Auth;
 use App\Customer;
 use App\VisitData;
 use App\Plan;
+use App\User;
 use App\Http\Requests\AddCustomer;
 use Carbon\Carbon;
 use App\Mail\HelloEmail;
 use Mail;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
-use App\Http\Controllers\Input;
 use Illuminate\Support\Facades\DB;
 
 class AppController extends Controller
@@ -28,11 +28,11 @@ class AppController extends Controller
     {
         // Planで検索
         if($request->plan === "0"){
-            $customers = Customer::where('plan', '0')->get();
+            $customers = Customer::where('user_id', Auth::id())->where('plan', '0')->get();
         }elseif($request->plan === "1"){
-            $customers = Customer::where('plan', '1')->get();
+            $customers = Customer::where('user_id', Auth::id())->where('plan', '1')->get();
         }else{
-            $customers = Customer::all();
+            $customers = Customer::where('user_id', Auth::id())->get();
         }
 
         // Customerが登録されていなかったら登録画面に
@@ -51,7 +51,7 @@ class AppController extends Controller
     // 論理削除済Customer一覧
     public function deleted()
     {
-        $customers = Customer::onlyTrashed()->get(); 
+        $customers = Customer::onlyTrashed()->where('user_id', Auth::id())->get(); 
  
         return view('customer.deleted',[
             'customers' => $customers,
@@ -61,7 +61,7 @@ class AppController extends Controller
     // 論理削除復元
     public function restore($id)
     {
-        Customer::onlyTrashed()->find($id)->restore(); 
+        Customer::onlyTrashed()->where('user_id', Auth::id())->find($id)->restore(); 
  
         return redirect()->route('customer.list.deleted');
     }
@@ -69,7 +69,7 @@ class AppController extends Controller
     // 論理削除
     public function delete(Customer $customer)
     {
-        Customer::find($customer->id)->delete();
+        Customer::where('user_id', Auth::id())->find($customer->id)->delete();
 
         return redirect()->route('customer.list');
     }
@@ -77,7 +77,7 @@ class AppController extends Controller
     // 物理削除
     public function forceDelete($id)
     {
-        Customer::onlyTrashed()->find($id)->forceDelete(); 
+        Customer::onlyTrashed()->where('user_id', Auth::id())->find($id)->forceDelete(); 
  
         return redirect()->route('customer.list.deleted');
     }
@@ -102,19 +102,22 @@ class AppController extends Controller
     public function add(AddCustomer $request)
     {        
         DB::transaction(function() use($request){
+
+            $customer = new Customer;
+            $customer->fill($request->all());
+            $customer->user_id = Auth::id();
+            $customer->save();
+
+            // プラン購入者は
             if($request->plan === "1"){
-                $customer = Customer::create($request->all());
-                $user = Auth::user();    
-                // プラン購入者は
-                // plan_started_atカラムに現在時刻追加
                 $customer->plan = "1";
+                // plan_started_atカラムに現在時刻追加
                 $customer->plan_started_at = Carbon::now();
-                $customer->save();
                 // Planテーブルに追加、customer_idと紐付ける
                 Plan::create(['customer_id' => $customer->id]);
-                $this->startPlan($customer, $user);
-            }
-            
+                $this->startPlan($customer);
+                $customer->save();
+            }            
         });
 
         return redirect()->route('customer.add');
@@ -132,7 +135,6 @@ class AppController extends Controller
 
             // Planテーブルの論理削除されていないレコード数取得
             $count_plan = Plan::where('customer_id', $customer->id)->count('id');
-            $user = Auth::user();
 
             // すでにレコードがある場合はPlanを追加しない
             // Planテーブルのレコードは手動で削除できない
@@ -141,7 +143,7 @@ class AppController extends Controller
                 $customer->plan_started_at = Carbon::now();
                 $customer->save();
                 Plan::create(['customer_id' => $customer->id]);
-                $this->startPlan($customer, $user);
+                $this->startPlan($customer);
             }
         });
     
@@ -165,7 +167,7 @@ class AppController extends Controller
     // Customer詳細
     public function detail(Customer $customer)
     {        
-        $user = Auth::user();
+        $user = User::where('id', $customer->user_id)->first();
 
         // VisitData、Planから金額、人数、来店回数の合計を取得
         $total_payment = VisitData::where('customer_id', $customer->id)->sum('pay');
@@ -225,12 +227,12 @@ class AppController extends Controller
         ]);
     }
 
-    public function startPlan($customer, $data)
+    public function startPlan($customer)
     {
         // 来店時、本人認証用のQrcodeを作成、customer_id.pngで保存
         \QrCode::format('png')->size(150)->generate('http://natsushi.net/check/' . $customer->id, public_path('/qrcode/'. $customer->id . '.png'));
         
         // Qrcodeが記載されたメールを送信
-        Mail::to($customer->email)->send(new HelloEmail($customer, $data, 'start'));        
+        Mail::to($customer->email)->send(new HelloEmail($customer, Auth::user(), 'start'));        
     }
 }

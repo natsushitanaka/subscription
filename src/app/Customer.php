@@ -12,7 +12,7 @@ class Customer extends Model
     protected $table = 'customers';
 
     protected $fillable = [
-        'name', 'email', 'tel', 'birth', 'comment',
+        'user_id', 'name', 'email', 'tel', 'birth', 'comment',
     ];
 
     public function visitDatas()

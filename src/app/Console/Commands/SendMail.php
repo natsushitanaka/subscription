@@ -46,10 +46,11 @@ class SendMail extends Command
      */
     public function handle()
     {
-        $customers = Customer::where('plan', '1')->get();
-        $user = User::first();
+        $customers = Customer::all();
 
         foreach($customers as $customer){
+            $user = User::where('id', $customer->user_id)->first();
+
             // 期限日、残り日数を取得
             $start = $customer->plan_started_at;
             $due_date = date("Y-m-d", strtotime($start . " + " . $user->expiring_date ." day"));
@@ -66,7 +67,8 @@ class SendMail extends Command
             // $leftでメールのviewを指定
             DB::transaction(function() use($customer, $user, $left){
 
-                switch($left){
+                if($customer->plan === "1"){
+                    switch($left){
                         // 失効n日前の通知
                         case $user->how_days_mail:
                             Mail::to($customer->email)->send(new HelloEmail($customer, $user, 'premail'));
@@ -84,6 +86,7 @@ class SendMail extends Command
                             // Planテーブルのレコードを論理削除
                             Plan::where('customer_id', $customer->id)->delete();
                         break;
+                    }
                 }
             });
         // Customerの誕生月初日に店舗に通知メール送信

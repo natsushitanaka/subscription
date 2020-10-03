@@ -38,8 +38,14 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public static function getUser()
+    public function customers()
     {
-        return Auth::user();
+        return $this->hasMany('App\Customer');
     }
+
+    public static function boot()
+    {
+        parent::boot();
+    }
+
 }

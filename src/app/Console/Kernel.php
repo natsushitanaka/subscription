@@ -25,10 +25,13 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $user = User::first();
-        $schedule->command('Mail:send')
-             ->everyMinute();
-            //  ->dailyAt($user->what_time_mail . ':00');
+        $users = User::all();
+
+        foreach($users as $user){
+            $schedule->command('Mail:send')
+            // ->everyMinute();
+            ->dailyAt($user->what_time_mail . ':00');
+        }
     }
 
     /**
