@@ -251,7 +251,7 @@ class AppController extends Controller
     public function startPlan($customer)
     {
         // 来店時、本人認証用のQrcodeを作成、customer_id.pngで保存
-        \QrCode::format('png')->size(150)->generate('http://natsushi.net/check/' . $customer->id, public_path('/qrcode/'. $customer->id . '.png'));
+        \QrCode::format('png')->size(150)->generate('https://natsushi.net/check/' . $customer->id, public_path('/qrcode/'. $customer->id . '.png'));
         
         // Qrcodeが記載されたメールを送信
         Mail::to($customer->email)->send(new HelloEmail($customer, Auth::user(), 'start'));        

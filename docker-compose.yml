@@ -9,13 +9,25 @@ services:
   nginx:
     image: nginx
     ports:
-      - 80:80
+      - 8000:8000
     volumes:
       - .:/var/www
       - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
     depends_on:
       - php
- 
+
+  https-portal:
+    image: steveltn/https-portal:1
+    ports:
+      - 80:80
+      - 443:443
+    restart: always
+    environment:
+      DOMAINS: 'localhost -> http://nginx:8000'
+      FORCE_RENEW: 'true'
+      STAGE: local
+    volumes:
+       - ./org-chimata-ssl-certs/localhost/local:/var/lib/https-porta/localhost/local
   db:
     image: mysql:5.7
     environment:

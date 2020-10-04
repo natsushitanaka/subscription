@@ -24,20 +24,20 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
                     </li>
-                    <!-- @if (Route::has('register'))
+                    @if (Route::has('register'))
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
                         </li>
-                    @endif -->
+                    @endif
                 @else
 
-                <a class="dropdown-item" href="{{ route('logout') }}"
+                <a class="dropdown-item" href="https://natsushi.net/logout"
                     onclick="event.preventDefault();
                                     document.getElementById('logout-form').submit();">
                     {{ __('Logout') }}
                 </a>
 
-                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                <form id="logout-form" action="https://natsushi.net/logout" method="POST" style="display: none;">
                     @csrf
                 </form>
 
