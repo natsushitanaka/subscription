@@ -24,10 +24,9 @@ services:
     restart: always
     environment:
       DOMAINS: 'localhost -> http://nginx:8000'
-      FORCE_RENEW: 'true'
       STAGE: local
     volumes:
-       - ./org-chimata-ssl-certs/localhost/local:/var/lib/https-porta/localhost/local
+      - ./org-chimata-ssl-certs:/var/lib/https-portal 
   db:
     image: mysql:5.7
     environment:

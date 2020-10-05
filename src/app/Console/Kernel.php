@@ -30,7 +30,7 @@ class Kernel extends ConsoleKernel
         foreach($users as $user){
             $schedule->command('Mail:send')
             // ->everyMinute();
-            ->dailyAt($user->what_time_mail . ':00');
+            ->dailyAt($user->what_time_mail_hour . ":" . $user->what_time_mail_minute);
         }
     }
 

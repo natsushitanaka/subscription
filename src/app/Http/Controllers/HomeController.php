@@ -2,16 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Customer;
-use App\User;
-use Carbon\Carbon;
+use App\Http\Requests\EditSetting;
 use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
-    private $customers_on_birth = [];
-
     /**
      * Create a new controller instance.
      *
@@ -29,14 +24,6 @@ class HomeController extends Controller
      */
     public function index()
     {
-        // $customers = Customer::all();
-
-        // foreach($customers as $customer){
-        //     if(date("n", strtotime($customer->birth)) == Carbon::now()->format('n')){
-        //         $this->customers_on_birth[] = $customer;
-        //     }
-        // }
-
         $user = Auth::user();
 
         return view('home', [
@@ -53,12 +40,13 @@ class HomeController extends Controller
         ]);
     }
 
-    public function set(Request $request)
+    public function set(EditSetting $request)
     {
         $user = Auth::user();
 
         $user->expiring_date = $request->expiring_date;
-        $user->what_time_mail = $request->what_time_mail;
+        $user->what_time_mail_hour = sprintf('%02d', $request->what_time_mail_hour);
+        $user->what_time_mail_minute = sprintf('%02d', $request->what_time_mail_minute);
         $user->how_days_mail = $request->how_days_mail;
         $user->update();
 

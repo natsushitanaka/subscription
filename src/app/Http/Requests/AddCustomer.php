@@ -26,9 +26,9 @@ class AddCustomer extends FormRequest
         return [
             'name' => 'required|max:20',
             'email' => 'required|email',
-            'tel' => '',
-            'birth' => '',
-            'comment' => 'max:100',
+            'tel' => 'nullable|between:10,11',
+            'birth' => 'date|nullable',
+            'comment' => 'max:30',
         ];
     }
 }

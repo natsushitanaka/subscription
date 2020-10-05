@@ -1,12 +1,12 @@
 <h3>通知メール</h3>
 
+<p>{{ $customer->name }}様</p>
 <p>ご契約ありがとうございます。</p>
 <p>このプランは{{ $user->expiring_date }}日間有効です。</p>
 <p>来店時に下記QRコードをご提示ください。</p>
+<img src="{{ $message->embed('qrcode/'.$customer->id.'.png') }}" alt="">
 
 <h3>登録情報</h3>
-
-<img src="{{ $message->embed('qrcode/'.$customer->id.'.png') }}" alt="">
 
 <table class="table">
 

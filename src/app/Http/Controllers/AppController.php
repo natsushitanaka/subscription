@@ -38,7 +38,7 @@ class AppController extends Controller
         // Customerが登録されていなかったら登録画面に
         if(is_null($customers->first())){
             return view('customer.add', [
-                'msg' => 'Please add customer as no data yet.',
+                'msg' => 'まだ登録がありません。顧客登録をお願いします。',
             ]);    
         }
 
@@ -77,7 +77,8 @@ class AppController extends Controller
     // 物理削除
     public function forceDelete($id)
     {
-        Customer::onlyTrashed()->where('user_id', Auth::id())->find($id)->forceDelete(); 
+        // Customer::onlyTrashed()->where('user_id', Auth::id())->find($id)->forceDelete(); 
+        Customer::withTrashed()->where('user_id', Auth::id())->find($id)->forceDelete(); 
  
         return redirect()->route('customer.list.deleted');
     }
