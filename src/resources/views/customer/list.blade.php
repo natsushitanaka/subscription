@@ -13,10 +13,7 @@
             QRコードを読み取って頂くと顧客情報を取得し、本人認証となります。また来店データに読み取った日付が追加されます。
         </li>
         <li style="color: red;">
-            サブスク有効期限を０日に変更すれば（メール配信時刻になれば）、すぐにプランを終了する処理が確認できます。
-        </li>
-        <li style="color: red;">
-            完全削除ボタンを押すと、登録データを全て完全に削除します。
+            [設定を変更する]→[テスト用の設定に変更する]すると、すぐにプランを終了する処理が確認できます。
         </li>
     </ol>
 
@@ -31,7 +28,7 @@
                 <input type="radio" id="1" name="plan" value="1">
                 <label for="0">プラン無</label>
                 <input type="radio" id="0" name="plan" value="0">
-                <button type="submit" class="btn btn-primary btn-sm">Search</button>
+                <button type="submit" class="btn btn-primary btn-sm">絞り込む</button>
             </form>
         </div>
     </div>
@@ -47,7 +44,6 @@
             <th>プランの有無</th>
             <th>-</th>
             <th>非アクティブにする</th>
-            <th>完全削除する</th>
         </tr>
 
         @foreach($customers as $customer)
@@ -69,13 +65,6 @@
             @csrf
             <td>
                 <button type="submit" class="btn btn-primary btn-sm">×</button>
-            </td>
-            </form>
-
-            <form action="/customer/{{$customer->id}}/forceDelete" method="post">
-            @csrf
-            <td>
-                <button type="submit" class="btn btn-primary btn-sm">完全削除</button>
             </td>
             </form>
 

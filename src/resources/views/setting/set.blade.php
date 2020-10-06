@@ -45,5 +45,15 @@
 
     </fieldset>
   </form>
+
+  <form action="/setting/testuser" method="post">
+  @csrf
+    <div class="form-group row">
+      <div class="col-lg-4 col-lg-offset-2">
+        <button type="submit" class="btn btn-primary">自動設定（Test User用）</button>
+      </div>
+    </div>
+    <span>＊１分程でご登録のアドレスにメールが配信されます。</span>
+  </form>
 </div>
 @endsection

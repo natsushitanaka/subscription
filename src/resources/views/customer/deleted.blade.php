@@ -21,8 +21,8 @@
             <th>氏名</th>
             <th>登録日</th>
             <th>プランの有無</th>
-            <th></th>
-            <th></th>
+            <th>顧客リストに戻す</th>
+            <th>完全削除する</th>
         </tr>
 
         @foreach($customers as $customer)
