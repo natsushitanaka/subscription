@@ -25,8 +25,8 @@ class EditSetting extends FormRequest
     {
         return [
             'expiring_date' => 'required|integer|min:0',
-            'what_time_mail_hour' => 'required|integer|between:0,23',
-            'what_time_mail_minute' => 'required|integer|between:0,59',
+            'what_time_mail_hour' => 'required|numeric|between:0,23',
+            'what_time_mail_minute' => 'required|numeric|between:0,59',
             'how_days_mail' => 'required|integer|min:0',
         ];
     }
