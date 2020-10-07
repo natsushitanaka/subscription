@@ -24,9 +24,9 @@
             <form action="" method="get">
                 <label for="2">全て</label>
                 <input type="radio" id="2" name="plan" value="2">
-                <label for="1">プラン有</label>
+                <label for="1">サブスク有</label>
                 <input type="radio" id="1" name="plan" value="1">
-                <label for="0">プラン無</label>
+                <label for="0">サブスク無</label>
                 <input type="radio" id="0" name="plan" value="0">
                 <button type="submit" class="btn btn-primary btn-sm">絞り込む</button>
             </form>

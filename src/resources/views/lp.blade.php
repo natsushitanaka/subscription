@@ -15,11 +15,14 @@
     <div class="row justify-content-around box">
         <img src="demo_photo/スクリーンショット 2020-10-07 17.21.48.png" alt="ログイン画面" class="col-5 small">
         <div class="col-6">
-        <p class="info">2.ログイン<br>
-        　登録した名前・パスワードでログインします。<br>
-            【ポートフォリオ テスト用】<br>
-            　デフォルトのままログインします。</p>
-            </div>
+            <p class="info">2.ログイン<br>
+            　登録した名前・パスワードでログインします。<br>
+                【ポートフォリオ テスト用】<br>
+                　デフォルトのままログインします。<br>
+                　 ”TestUser”はログアウト時に設定の変更や顧客登録データは<br>
+                　破棄されます。
+            </p>
+        </div>
     </div>
     <div class="row justify-content-around box">
         <img src="demo_photo/スクリーンショット 2020-10-07 13.16.16.png" alt="顧客登録" class="col-5">
@@ -38,7 +41,8 @@
         <img src="demo_photo/スクリーンショット 2020-10-07 13.18.08.png" alt="顧客リスト" class="col-5 small">
         <div class="col-6">
         <p class="info">4.顧客リストに追加されています。<br>
-            　顧客の「氏名」をクリックすると顧客情報を確認できます。
+            　顧客の「氏名」をクリックすると顧客情報を確認できます。<br>
+            　サブスク利用の有無で絞り込みができます。
         </p>
         </div>
     </div>
