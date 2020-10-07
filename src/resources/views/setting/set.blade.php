@@ -49,11 +49,11 @@
   <form action="/setting/testuser" method="post">
   @csrf
     <div class="form-group row">
-      <div class="col-lg-4 col-lg-offset-2">
+      <div class="col-lg-3">
         <button type="submit" class="btn btn-primary">自動設定（Test User用）</button>
       </div>
+      <span style="color: red;">＊自動設定に変更すると１分程でご登録のアドレスにメールが配信されます。</span>
     </div>
-    <span>＊１分程でご登録のアドレスにメールが配信されます。</span>
   </form>
 </div>
 @endsection

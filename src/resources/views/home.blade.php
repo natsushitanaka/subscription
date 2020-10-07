@@ -6,7 +6,7 @@
 
 <div class="container">
     <p style="color: red;">＊まずは顧客登録してください！</p>
-    <p style="color: red;">＊ログアウトすると設定の変更や顧客登録データは全て破棄されます。</p>
+    <p style="color: red;">＊ログアウトすると設定の変更や顧客登録データは初期化されます。（ポートフォリオ用テストの為）</p>
 
     <h2 class="">設定</h2>
     

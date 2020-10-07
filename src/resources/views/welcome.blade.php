@@ -4,12 +4,13 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Subscription</title>
+        <title>Subscription.local</title>
 
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
 
         <!-- Styles -->
+        <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
         <style>
             html, body {
                 background-color: #fff;
@@ -52,7 +53,7 @@
             .links > a {
                 color: #636b6f;
                 padding: 0 25px;
-                font-size: 13px;
+                font-size: 20px;
                 font-weight: 600;
                 letter-spacing: .1rem;
                 text-decoration: none;
@@ -62,6 +63,31 @@
             .m-b-md {
                 margin-bottom: 30px;
             }
+
+            img{
+                width: 400px;
+                height: 400px;
+            }
+
+            .info{
+                padding: 20px;
+                line-height: 30px;
+            }
+
+            .box{
+                margin-bottom: 20px;
+                border-bottom:solid thin lightgray ;
+            }
+
+            .small{
+                height: 200px;
+            }
+            h3{
+                margin-bottom: 30px;
+            }
+            
+
+
         </style>
     </head>
     <body>
@@ -69,19 +95,19 @@
             @if (Route::has('login'))
                 <div class="top-right links">
                     @auth
-                        <a href="{{ url('/home') }}">Home</a>
+                        <a href="{{ url('/home') }}">ホーム</a>
                     @else
-                        <a href="{{ route('login') }}">Login</a>
+                        <a href="{{ route('login') }}">ログイン</a>
 
                         @if (Route::has('register'))
-                            <a href="{{ route('register') }}">Register</a>
+                            <a href="{{ route('register') }}">ユーザー登録</a>
                         @endif
                     @endauth
                 </div>
             @endif
         </div>
         <div>
-            @include('lp')
+            @yield('lp')
         </div>
     </body>
 </html>

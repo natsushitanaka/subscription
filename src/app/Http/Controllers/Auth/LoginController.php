@@ -49,10 +49,10 @@ class LoginController extends Controller
   public function logout(Request $request)
   {
     $user = Auth::user();
-    $user->expiring_date = '1';
+    $user->expiring_date = '30';
     $user->what_time_mail_hour = '10';
     $user->what_time_mail_minute = '00';
-    $user->how_days_mail = '1';
+    $user->how_days_mail = '7';
     $user->save();
 
     Customer::where('user_id', Auth::id())->forceDelete();

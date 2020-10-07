@@ -5,17 +5,11 @@
 @include('share.nav')
 @include('share.showError')
 
-<div class="container">
-  <div class="row">
-      <h2 class="col-6"><a href="/customer/{{$customer->id}}">{{ $customer->name }}</a>の来店データ</h2>
-  </div>
-</div>
-
 <div class="container data_form">
   <form action="/visitdata/{{$customer->id}}/add" class="form-fluid" method="post">
   @csrf
     <fieldset>
-      <legend>来店データ登録</legend>
+      <legend>データ追加</legend>
 
       <div class="form-group row">
         <label for="date" class="col-lg-2 control-label">来店日</label>
@@ -58,7 +52,7 @@
 
 <div class="container">
   <div class="row">
-    <h2 class="col-6">来店データ</h2>
+    <h2 class="col-6"><a href="/customer/{{$customer->id}}">{{ $customer->name }}</a>の来店データ</h2>
   </div>
 
   <table class="table data_table">
