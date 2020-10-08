@@ -48,7 +48,7 @@
             <form action="/customer/{{$customer->id}}/forceDelete" method="post">
             @csrf
             <td>
-                <button type="submit" class="btn btn-primary btn-sm">完全削除</button>
+                <button id="alert" type="submit" class="btn btn-primary btn-sm">完全削除</button>
             </td>
             </form>
 

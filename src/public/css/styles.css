@@ -18,11 +18,35 @@ h2, table{
     padding-left: 30px;
 }
 
-.err{
-    color: floralwhite;
-    background-color: red;
-    padding: 5px;
+.err_box{
+    display: inline-block;
+    background-color: lightcoral;
+    padding: 15px;
+    border: solid 1px lightslategray;
+    border-radius: 5px;
+    margin-bottom: 20px;
 }
 
+img{
+    width: 400px;
+    height: 400px;
+}
+
+.info{
+    padding: 20px;
+    line-height: 30px;
+}
+
+.box{
+    margin-bottom: 20px;
+    border-bottom:solid thin lightgray ;
+}
+
+.small{
+    height: 200px;
+}
+h3{
+    margin-bottom: 30px;
+}
 
 

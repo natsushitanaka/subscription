@@ -1,4 +1,5 @@
 <?php
+use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -12,7 +13,13 @@
 */
 
 Route::get('/', function () {
-    return view('lp');
+    return view('welcome');
+});
+
+Route::get('/demo', function () {
+    return view('demo', [
+        'user' => Auth::user(),
+    ]);
 });
 
 Auth::routes();

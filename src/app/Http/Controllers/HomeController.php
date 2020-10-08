@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\EditSetting;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
+use App\Customer;
 
 class HomeController extends Controller
 {
@@ -26,9 +27,17 @@ class HomeController extends Controller
     public function index()
     {
         $user = Auth::user();
+        $count = Customer::withTrashed()->where('user_id', $user->id)->count();
+        
+        if($count === 0){
+            $msg = "まずは顧客登録してください！";
+        }else{
+            $msg = '';
+        }
 
         return view('home', [
             'user' => $user,
+            'msg' => $msg,
         ]);
     }
 

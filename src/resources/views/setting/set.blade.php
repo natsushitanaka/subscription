@@ -46,14 +46,17 @@
     </fieldset>
   </form>
 
-  <form action="/setting/testuser" method="post">
-  @csrf
-    <div class="form-group row">
-      <div class="col-lg-3">
-        <button type="submit" class="btn btn-primary">自動設定（Test User用）</button>
+  @if($user->id === 1 && $user->name === "TestUser")
+    <form action="/setting/testuser" method="post">
+    @csrf
+      <div class="form-group row">
+        <div class="col-lg-3">
+          <button type="submit" class="btn btn-primary">自動設定（Test User用）</button>
+        </div>
+        <span style="color: red;">＊【ポートフォリオ/テスト用】自動設定に変更すると１分程でご登録のアドレスにメールが配信されます。</span>
       </div>
-      <span style="color: red;">＊【ポートフォリオ/テスト用】自動設定に変更すると１分程でご登録のアドレスにメールが配信されます。</span>
-    </div>
-  </form>
+    </form>
+  @endif
+  
 </div>
 @endsection

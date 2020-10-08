@@ -37,14 +37,15 @@ class AppController extends Controller
 
         // Customerが登録されていなかったら登録画面に
         if(is_null($customers->first())){
-            return view('customer.add', [
-                'msg' => 'まだ登録がありません。顧客登録をお願いします。',
-            ]);    
+            return redirect()->route('customer.add', [
+                'msg' => '顧客が登録されていません。まずは顧客登録しましょう。',
+            ]);
         }
 
         return view('customer.list', [
             'customers' => $customers,
             'plan' => $request->plan,
+            'msg' => $request->msg,
         ]);
     }
 
@@ -53,6 +54,12 @@ class AppController extends Controller
     {
         $customers = Customer::onlyTrashed()->where('user_id', Auth::id())->get(); 
  
+        if(is_null($customers->first())){
+            return redirect()->route('customer.list', [
+                'msg' => '非アクティブ顧客は登録されていません。',
+            ]);
+        }
+
         return view('customer.deleted',[
             'customers' => $customers,
         ]);
@@ -84,9 +91,11 @@ class AppController extends Controller
     }
 
     // Customer登録フォーム表示
-    public function showAdd()
+    public function showAdd(Request $request)
     {
-        return view('customer.add');
+        return view('customer.add', [
+            'msg' => $request->msg,
+        ]);
     }
 
     // Customer編集フォーム表示

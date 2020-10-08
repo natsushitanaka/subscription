@@ -3,19 +3,9 @@
 @section('content')
 
 @include('share.nav')
+@include('share.showMsg')
 
 <div class="container">
-    <ol>
-        <li style="color: red;">
-            リストに追加されていれば、ご登録のメールアドレスにQRコード付きメールが送信されていますのでご確認ください。
-        </li>
-        <li style="color: red;">
-            QRコードを読み取って頂くと顧客情報を取得し、本人認証となります。また来店データに読み取った日付が追加されます。
-        </li>
-        <li style="color: red;">
-            [設定を変更する]→[テスト用の設定に変更する]すると、すぐにプランを終了する処理が確認できます。
-        </li>
-    </ol>
 
     <div class="row">
         <h2 class="col-6">顧客リスト</h2>
@@ -64,7 +54,7 @@
             <form action="/customer/{{$customer->id}}/delete" method="post">
             @csrf
             <td>
-                <button type="submit" class="btn btn-primary btn-sm">×</button>
+                <button id="alert" type="submit" class="btn btn-primary btn-sm">×</button>
             </td>
             </form>
 

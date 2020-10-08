@@ -19,95 +19,59 @@
                 font-weight: 200;
                 height: 100vh;
                 margin: 0;
-                padding: 30px;
-            }
-
-            .full-height {
-                height: 100vh;
-            }
-
-            .flex-center {
-                align-items: center;
-                display: flex;
-                justify-content: center;
-            }
-
-            .position-ref {
-                position: relative;
-            }
-
-            .top-right {
-                position: absolute;
-                right: 10px;
-                top: 18px;
-            }
-
-            .content {
-                text-align: center;
+                /* padding: 30px; */
             }
 
             .title {
-                font-size: 84px;
+                font-size: 60px;
+                margin: 0 auto;
             }
 
             .links > a {
                 color: #636b6f;
                 padding: 0 25px;
-                font-size: 20px;
+                font-size: 30px;
                 font-weight: 600;
                 letter-spacing: .1rem;
                 text-decoration: none;
                 text-transform: uppercase;
             }
 
-            .m-b-md {
-                margin-bottom: 30px;
-            }
-
-            img{
-                width: 400px;
-                height: 400px;
-            }
-
-            .info{
-                padding: 20px;
-                line-height: 30px;
+            .links{
+                display: flex;
+                justify-content: space-around;
+                margin-top: 10vh;
             }
 
             .box{
-                margin-bottom: 20px;
-                border-bottom:solid thin lightgray ;
+                display: flex;
+                align-items: flex-end;
+                height: 45vh;
             }
 
-            .small{
-                height: 200px;
+            .span{
+                font-size: 17px;
             }
-            h3{
-                margin-bottom: 30px;
-            }
-            
-
 
         </style>
     </head>
     <body>
-        <div class="">
-            @if (Route::has('login'))
-                <div class="top-right links">
-                    @auth
-                        <a href="{{ url('/home') }}">ホーム</a>
-                    @else
-                        <a href="{{ route('login') }}">ログイン</a>
-
-                        @if (Route::has('register'))
-                            <a href="{{ route('register') }}">ユーザー登録</a>
-                        @endif
-                    @endauth
-                </div>
-            @endif
+        <div class="box">
+            <h2 class="title ">サブスクリプション管理アプリ</h2>
         </div>
-        <div>
-            @yield('lp')
+        <div class="links">
+            @if (Route::has('login'))
+            @auth
+                <a href="{{ url('/home') }}">ホーム</a>
+            @else
+                <a href="{{ route('login') }}">ログイン</a>
+
+                @if (Route::has('register'))
+                    <a href="{{ route('register') }}">ユーザー登録</a>
+                @endif
+            @endauth
+            @endif
+                <a href="/demo">使い方<span class="span">（テストログインはこちら）</span></a>
         </div>
     </body>
 </html>
